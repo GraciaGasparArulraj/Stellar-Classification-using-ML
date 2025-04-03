@@ -4,3 +4,4 @@ numpy
 streamlit
 requests
 joblib
+astropy
