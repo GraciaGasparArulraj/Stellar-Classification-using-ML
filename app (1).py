@@ -99,6 +99,6 @@ if st.button("Show Star Image"):
     fits_data = get_skyview_image(ra, dec)
     if fits_data:
         image = fits_to_png(fits_data)
-        st.image(image, caption="Star Image from NASA SkyView", use_column_width=True)
+        st.image(image, caption="Star Image from NASA SkyView", use_container_width=True)
     else:
         st.write("Could not retrieve star image. Check RA/Dec values.")
