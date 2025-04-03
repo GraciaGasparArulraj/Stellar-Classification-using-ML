@@ -3,12 +3,12 @@ import streamlit as st
 import math as math
 import requests
 import numpy as np
-from astroquery.skyview import SkyView
-from astropy.io import fits
-from io import BytesIO
-from PIL import Image
+#from astroquery.skyview import SkyView
+#from astropy.io import fits
+#from io import BytesIO
+#from PIL import Image
 
-def hms_to_degrees(h, m, s):
+'''def hms_to_degrees(h, m, s):
     return (h + m / 60 + s / 3600) * 15
 
 def dms_to_degrees(d, m, s):
@@ -35,7 +35,7 @@ def fits_to_png(fits_data):
     image_data = (image_data - np.min(image_data)) / (np.max(image_data) - np.min(image_data)) * 255
     image_data = image_data.astype(np.uint8)  # Convert to 8-bit
 
-    return Image.fromarray(image_data)  # Convert to PIL Image
+    return Image.fromarray(image_data)  # Convert to PIL Image'''
 
     
 st.title("Stellar Classification App 🌟")
@@ -83,7 +83,7 @@ if st.button("Classify Star"):
     except Exception as e:
         st.write("Error occurred:", e)
         
-# RA and Dec input fields
+'''# RA and Dec input fields
 ra_h = st.number_input("Enter Right Ascension Hours:", value=0, min_value=0, max_value=23)
 ra_m = st.number_input("Enter Right Ascension Minutes:", value=0, min_value=0, max_value=59)
 ra_s = st.number_input("Enter Right Ascension Seconds:", value=0.0, min_value=0.0, max_value=59.9999)
@@ -101,4 +101,4 @@ if st.button("Show Star Image"):
         image = fits_to_png(fits_data)
         st.image(image, caption="Star Image from NASA SkyView", use_container_width=True)
     else:
-        st.write("Could not retrieve star image. Check RA/Dec values.")
+        st.write("Could not retrieve star image. Check RA/Dec values.")'''
