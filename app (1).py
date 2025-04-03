@@ -2,6 +2,7 @@ import joblib
 import streamlit as st
 import math as math
 import requests
+import numpy as np
 from astropy.io import fits
 from io import BytesIO
 from PIL import Image
