@@ -1,4 +1,4 @@
-pip install joblib
+!pip install joblib
 import streamlit as st
 import math as math
 import joblib
