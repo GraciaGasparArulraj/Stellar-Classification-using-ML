@@ -21,7 +21,7 @@ if magnitude_option == "Yes":
 
 # If the user doesn't have absolute magnitude, ask for Parallax and Apparent Magnitude
 else:
-    parallax = st.number_input("Enter Parallax (in milliarcseconds):", value=0.0)
+    parallax = st.number_input("Enter Parallax:", value=0.0)
     app_mag = st.number_input("Enter Apparent Magnitude:", value=0.0)
 
     # Calculate Absolute Magnitude only if parallax is greater than 0
