@@ -77,6 +77,11 @@ if st.button("Show Star Image"):
 
         if response.status_code == 200:
             image = Image.open(BytesIO(response.content))
+            # Convert the image to RGB (JPEG-compatible format)
+            if image.mode in ("I;16", "I"):
+                image = image.convert("L")  # Convert to 8-bit grayscale
+            elif image.mode != "RGB":
+                image = image.convert("RGB")  # Convert to RGB if not already      
             st.image(image, caption="Star Image from NASA SkyView")
         else:
             st.error("Could not retrieve star image. Please check RA/Dec values.")
