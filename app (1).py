@@ -1,6 +1,8 @@
 import joblib
 import streamlit as st
 import math as math
+from PIL import Image
+from io import BytesIO
 
 st.title("Stellar Classification App 🌟")
 st.write("Enter the stellar parameters to get the classification:")
@@ -46,3 +48,19 @@ if st.button("Classify Star"):
 
     except Exception as e:
         st.write("Error occurred:", e)
+ra = st.number_input("Enter Right Ascension (RA):", value=0.0)
+dec = st.number_input("Enter Declination (Dec):", value=0.0)
+
+if st.button("Show Star Image"):
+    if ra and dec:
+        # Fetch image from NASA SkyView
+        image_url = f"https://skyview.gsfc.nasa.gov/cgi-bin/pskcall?RA={ra}&DEC={dec}&Survey=DSS"
+        response = requests.get(image_url)
+
+        if response.status_code == 200:
+            image = Image.open(BytesIO(response.content))
+            st.image(image, caption="Star Image from NASA SkyView")
+        else:
+            st.error("Could not retrieve star image. Please check RA/Dec values.")
+    else:
+        st.warning("Please enter valid RA and Dec values.")
