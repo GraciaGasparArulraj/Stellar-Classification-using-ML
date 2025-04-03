@@ -95,8 +95,8 @@ dec = dms_to_degrees(dec_d, dec_m, dec_s)
 if st.button("Show Star Image"):
     fits_data = get_fits_image(ra, dec)
         
-        if fits_data:
-            image = fits_to_png(fits_data)
-            st.image(image, caption="Star Image from NASA SkyView")
-        else:
-            st.write("Could not retrieve star image. Check RA/Dec values.")
+    if fits_data:
+        image = fits_to_png(fits_data)
+        st.image(image, caption="Star Image from NASA SkyView")
+    else:
+        st.write("Could not retrieve star image. Check RA/Dec values.")
