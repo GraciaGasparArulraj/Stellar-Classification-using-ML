@@ -4,6 +4,13 @@ import math as math
 from PIL import Image
 from io import BytesIO
 
+def hms_to_degrees(h, m, s):
+    return (h + m / 60 + s / 3600) * 15
+
+def dms_to_degrees(d, m, s):
+    sign = -1 if d < 0 else 1
+    return sign * (abs(d) + m / 60 + s / 3600)
+    
 st.title("Stellar Classification App 🌟")
 st.write("Enter the stellar parameters to get the classification:")
 
@@ -48,8 +55,18 @@ if st.button("Classify Star"):
 
     except Exception as e:
         st.write("Error occurred:", e)
-ra = st.number_input("Enter Right Ascension (RA):", value=0.0)
-dec = st.number_input("Enter Declination (Dec):", value=0.0)
+        
+# RA and Dec input fields
+ra_h = st.number_input("Enter Right Ascension Hours:", value=0, min_value=0, max_value=23)
+ra_m = st.number_input("Enter Right Ascension Minutes:", value=0, min_value=0, max_value=59)
+ra_s = st.number_input("Enter Right Ascension Seconds:", value=0.0, min_value=0.0, max_value=59.9999)
+dec_d = st.number_input("Enter Declination Degrees:", value=0, min_value=-90, max_value=90)
+dec_m = st.number_input("Enter Declination Minutes:", value=0, min_value=0, max_value=59)
+dec_s = st.number_input("Enter Declination Seconds:", value=0.0, min_value=0.0, max_value=59.9999)
+
+# Convert RA and Dec to decimal degrees
+ra = hms_to_degrees(ra_h, ra_m, ra_s)
+dec = dms_to_degrees(dec_d, dec_m, dec_s)
 
 if st.button("Show Star Image"):
     if ra and dec:
