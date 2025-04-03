@@ -8,7 +8,7 @@ st.write("Enter the stellar parameters to get the classification:")
 # Load the trained model
 with open('stellarClassifiactionModel.pkl', 'rb') as file:
     model = pickle.load(file)
-
+print(type(model))
 # Input fields
 bv = st.number_input("Enter B-V Value:")
 luminosity = st.number_input("Enter Luminosity:")
