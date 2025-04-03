@@ -1,4 +1,4 @@
-import pickle
+import joblib
 import streamlit as st
 import math as math
 
@@ -6,8 +6,7 @@ st.title("Stellar Classification App 🌟")
 st.write("Enter the stellar parameters to get the classification:")
 
 # Load the trained model
-with open('stellarClassifiactionModel.pkl', 'rb') as file:
-    model = pickle.load(file)
+model=joblib.load('stellarClassifiactionModel.pkl')
 # Input fields
 bv = st.number_input("Enter B-V Value:")
 luminosity = st.number_input("Enter Luminosity:")
