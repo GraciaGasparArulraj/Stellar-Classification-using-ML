@@ -26,7 +26,7 @@ if luminosity!=0:
 if st.button("Classify Star"):
     try:
         # Prediction
-        features = [[bv, luminosity, magnitude,temperature,radius,age]]
+        features = [[bv,temperature,luminosity,radius,magnitude,age]]
         prediction = model.predict(features)[0]
         probabilities = model.predict_proba(features)[0]
         confidence = max(probabilities) * 100
