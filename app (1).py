@@ -10,13 +10,23 @@ model=joblib.load('stellarClassifiactionModel.pkl')
 # Input fields
 bv = st.number_input("Enter B-V Value:")
 luminosity = st.number_input("Enter Luminosity:")
-magnitude=st.number_input("Enter Absolute magnitude:", value=0.0)
-# parallax = st.number_input("Enter Parallax:", value=0.0)
-# app_mag = st.number_input("Enter Apparent Magnitude:", value=0.0)
+magnitude_option = st.selectbox(
+    "Do you have the Absolute Magnitude?",
+    ("Yes", "No")
+)
 
-# Determine magnitude to use
-# if parallax>0:
-    # magnitude=app_mag + 5 * math.log10(parallax/100.)
+# If the user has absolute magnitude, ask for it
+if magnitude_option == "Yes":
+    magnitude = st.number_input("Enter Absolute Magnitude:", value=0.0)
+
+# If the user doesn't have absolute magnitude, ask for Parallax and Apparent Magnitude
+else:
+    parallax = st.number_input("Enter Parallax (in milliarcseconds):", value=0.0)
+    app_mag = st.number_input("Enter Apparent Magnitude:", value=0.0)
+
+    # Calculate Absolute Magnitude only if parallax is greater than 0
+    if parallax > 0:
+        magnitude = app_mag + 5 * math.log10(parallax / 100.0)
 
 temperature = 4600*((1/((0.92*bv)+1.7))+(1/((0.92*bv)+0.62)))
 radius = ((((luminosity*3.828*(10**26))/(4*math.pi*5.67*(10**-8)*(temperature**4)))**(1/2))/(6.95*(10**8)))
