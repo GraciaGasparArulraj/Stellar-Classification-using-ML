@@ -2,8 +2,9 @@ import joblib
 import streamlit as st
 import math as math
 import requests
-from PIL import Image
+from astropy.io import fits
 from io import BytesIO
+from PIL import Image
 
 def hms_to_degrees(h, m, s):
     return (h + m / 60 + s / 3600) * 15
@@ -11,6 +12,28 @@ def hms_to_degrees(h, m, s):
 def dms_to_degrees(d, m, s):
     sign = -1 if d < 0 else 1
     return sign * (abs(d) + m / 60 + s / 3600)
+
+def get_fits_image(ra, dec):
+    """Fetch FITS image dynamically from NASA SkyView"""
+    url = f"https://skyview.gsfc.nasa.gov/cgi-bin/pskcall?survey=DSS2&position={ra},{dec}&Return=FITS"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        return BytesIO(response.content)  # Return FITS data as BytesIO
+    else:
+        return None
+
+def fits_to_png(fits_data):
+    """Convert FITS data to an 8-bit grayscale image"""
+    with fits.open(fits_data) as hdul:
+        image_data = hdul[0].data  # Extract image array
+
+    # Normalize the image to 8-bit (0-255)
+    image_data = np.nan_to_num(image_data)  # Replace NaNs with 0
+    image_data = (image_data - np.min(image_data)) / (np.max(image_data) - np.min(image_data)) * 255
+    image_data = image_data.astype(np.uint8)  # Convert to 8-bit
+
+    return Image.fromarray(image_data)  # Convert to PIL Image
     
 st.title("Stellar Classification App 🌟")
 st.write("Enter the stellar parameters to get the classification:")
@@ -70,20 +93,10 @@ ra = hms_to_degrees(ra_h, ra_m, ra_s)
 dec = dms_to_degrees(dec_d, dec_m, dec_s)
 
 if st.button("Show Star Image"):
-    if ra and dec:
-        # Fetch image from NASA SkyView
-        image_url = f"https://skyview.gsfc.nasa.gov/cgi-bin/pskcall?RA={ra}&DEC={dec}&Survey=DSS"
-        response = requests.get(image_url)
-
-        if response.status_code == 200:
-            image = Image.open(BytesIO(response.content))
-            # Convert the image to RGB (JPEG-compatible format)
-            if image.mode in ("I;16", "I"):
-                image = image.convert("L")  # Convert to 8-bit grayscale
-            elif image.mode != "RGB":
-                image = image.convert("RGB")  # Convert to RGB if not already      
+    fits_data = get_fits_image(ra, dec)
+        
+        if fits_data:
+            image = fits_to_png(fits_data)
             st.image(image, caption="Star Image from NASA SkyView")
         else:
-            st.error("Could not retrieve star image. Please check RA/Dec values.")
-    else:
-        st.warning("Please enter valid RA and Dec values.")
+            st.write("Could not retrieve star image. Check RA/Dec values.")
