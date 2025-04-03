@@ -5,3 +5,4 @@ streamlit
 requests
 joblib
 astropy
+astroquery
