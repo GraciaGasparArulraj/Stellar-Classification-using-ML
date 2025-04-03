@@ -3,41 +3,7 @@ import streamlit as st
 import math as math
 import requests
 import numpy as np
-#from astroquery.skyview import SkyView
-#from astropy.io import fits
-#from io import BytesIO
-#from PIL import Image
 
-'''def hms_to_degrees(h, m, s):
-    return (h + m / 60 + s / 3600) * 15
-
-def dms_to_degrees(d, m, s):
-    sign = -1 if d < 0 else 1
-    return sign * (abs(d) + m / 60 + s / 3600)
-
-def get_skyview_image(ra, dec):
-    """Fetch FITS image dynamically using Astroquery's SkyView"""
-    try:
-        images = SkyView.get_images(position=f"{ra}, {dec}", survey='DSS2 Red', pixels=500)
-        if images:
-            return images[0]  # Return first FITS image
-    except Exception as e:
-        st.write("Error fetching image:", e)
-    return None
-
-def fits_to_png(fits_data):
-    """Convert FITS data to an 8-bit grayscale image"""
-    with fits_data as hdul:
-        image_data = hdul[0].data  # Extract image array
-
-    # Normalize the image to 8-bit (0-255)
-    image_data = np.nan_to_num(image_data)  # Replace NaNs with 0
-    image_data = (image_data - np.min(image_data)) / (np.max(image_data) - np.min(image_data)) * 255
-    image_data = image_data.astype(np.uint8)  # Convert to 8-bit
-
-    return Image.fromarray(image_data)  # Convert to PIL Image'''
-
-    
 st.title("Stellar Classification App 🌟")
 st.write("Enter the stellar parameters to get the classification:")
 
@@ -82,23 +48,3 @@ if st.button("Classify Star"):
 
     except Exception as e:
         st.write("Error occurred:", e)
-        
-'''# RA and Dec input fields
-ra_h = st.number_input("Enter Right Ascension Hours:", value=0, min_value=0, max_value=23)
-ra_m = st.number_input("Enter Right Ascension Minutes:", value=0, min_value=0, max_value=59)
-ra_s = st.number_input("Enter Right Ascension Seconds:", value=0.0, min_value=0.0, max_value=59.9999)
-dec_d = st.number_input("Enter Declination Degrees:", value=0, min_value=-90, max_value=90)
-dec_m = st.number_input("Enter Declination Minutes:", value=0, min_value=0, max_value=59)
-dec_s = st.number_input("Enter Declination Seconds:", value=0.0, min_value=0.0, max_value=59.9999)
-
-# Convert RA and Dec to decimal degrees
-ra = hms_to_degrees(ra_h, ra_m, ra_s)
-dec = dms_to_degrees(dec_d, dec_m, dec_s)
-
-if st.button("Show Star Image"):
-    fits_data = get_skyview_image(ra, dec)
-    if fits_data:
-        image = fits_to_png(fits_data)
-        st.image(image, caption="Star Image from NASA SkyView", use_container_width=True)
-    else:
-        st.write("Could not retrieve star image. Check RA/Dec values.")'''
